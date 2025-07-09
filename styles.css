@@ -4,6 +4,7 @@ body {
   color: #333;
   line-height: 1.6;
   padding-bottom: 2rem;
+  margin: 0;
 }
 
 /* Utility classes */
