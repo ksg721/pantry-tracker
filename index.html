@@ -60,10 +60,6 @@
                     </div>
                     <div class="card-content quick-add-content">
                         <div class="quick-add-description">Quickly add items to your pantry</div>
-                        <div class="form-group">
-                            <label for="quick-add-input">Item Name</label>
-                            <input type="text" id="quick-add-input" placeholder="Enter item name and press Enter" class="text-center">
-                        </div>
                         <button class="btn btn-primary btn-full" id="quick-add-btn" onclick="quickAdd()">
                             <span class="icon">+</span> Quick Add
                         </button>
@@ -80,45 +76,6 @@
                     </div>
                     <div class="card-content">
                         <div class="items-list" id="pantry-items">
-                            <div class="item">
-                                <div class="item-info">
-                                    <span class="icon">📦</span>
-                                    <div>
-                                        <div class="item-name">Rice</div>
-                                        <div class="item-category">Grains</div>
-                                    </div>
-                                </div>
-                                <div class="item-actions">
-                                    <span class="quantity">x2</span>
-                                    <button class="btn-icon" onclick="removeFromPantry('rice')">🗑️</button>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-info">
-                                    <span class="icon">📦</span>
-                                    <div>
-                                        <div class="item-name">Pasta</div>
-                                        <div class="item-category">Grains</div>
-                                    </div>
-                                </div>
-                                <div class="item-actions">
-                                    <span class="quantity">x3</span>
-                                    <button class="btn-icon" onclick="removeFromPantry('pasta')">🗑️</button>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-info">
-                                    <span class="icon">📦</span>
-                                    <div>
-                                        <div class="item-name">Tomato Sauce</div>
-                                        <div class="item-category">Canned Goods</div>
-                                    </div>
-                                </div>
-                                <div class="item-actions">
-                                    <span class="quantity">x1</span>
-                                    <button class="btn-icon" onclick="removeFromPantry('tomato-sauce')">🗑️</button>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-container" id="pantry-form" style="display: none;">
                             <div class="form-group">
