@@ -3,41 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantry Shark</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="pantry.js" defer></script>
-    <title>Pantry Tracker</title>
+    <script src="script.js" defer></script>
 </head>
 <body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Pantry Shark</h1>
+            <nav class="nav">
+                <a href="#" class="nav-link"><img src="" alt=""></a>
+                <a href="#" class="nav-link">HOME</a>
+                <a href="#" class="nav-link">PANTRY</a>
+            </nav>
+        </div>
+    </header>
 
-  <header>
-    <h1>Pantry Tracker</h1>
-    <nav>
-      <a href="#">LOGO</a>
-      <a href="#">Home</a>
-      <a href="#">Pantry</a>
-      <a href="#">Instructions</a>
-    </nav>
-  </header>
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="grid">
+                <!-- Cart Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Cart</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="items-list" id="cart-items">
+                            <div class="empty-message">Your cart is empty</div>
+                        </div>
+                        <div class="form-container" id="cart-form" style="display: none;">
+                            <div class="form-group">
+                                <label for="cart-item-name">Item Name</label>
+                                <input type="text" id="cart-item-name" placeholder="Enter item name">
+                            </div>
+                            <div class="form-group">
+                                <label for="cart-item-quantity">Quantity</label>
+                                <input type="number" id="cart-item-quantity" value="1" min="1">
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-primary" onclick="addToCart()">Add Item</button>
+                                <button class="btn btn-secondary" onclick="toggleCartForm()">Cancel</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-full" id="cart-add-btn" onclick="toggleCartForm()">
+                            <span class="icon">+</span> ADD FORM
+                        </button>
+                    </div>
+                </div>
 
-  <main>
-    <section class="column">
-      <h2>Cart</h2>
-      <div class="add-form">ADD FORM</div>
-    </section>
+                <!-- Quick Add Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Quick Add</h2>
+                    </div>
+                    <div class="card-content quick-add-content">
+                        <div class="quick-add-description">Quickly add items to your pantry</div>
+                        <div class="form-group">
+                            <label for="quick-add-input">Item Name</label>
+                            <input type="text" id="quick-add-input" placeholder="Enter item name and press Enter" class="text-center">
+                        </div>
+                        <button class="btn btn-primary btn-full" id="quick-add-btn" onclick="quickAdd()">
+                            <span class="icon">+</span> Quick Add
+                        </button>
+                        <div class="success-message" id="quick-add-success" style="display: none;">
+                            Item added to pantry successfully!
+                        </div>
+                    </div>
+                </div>
 
-    <section class="column">
-      <h2>Quick Add</h2>
-    </section>
+                <!-- Pantry Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Pantry</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="items-list" id="pantry-items">
+                            <div class="item">
+                                <div class="item-info">
+                                    <span class="icon">📦</span>
+                                    <div>
+                                        <div class="item-name">Rice</div>
+                                        <div class="item-category">Grains</div>
+                                    </div>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="quantity">x2</span>
+                                    <button class="btn-icon" onclick="removeFromPantry('rice')">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="item-info">
+                                    <span class="icon">📦</span>
+                                    <div>
+                                        <div class="item-name">Pasta</div>
+                                        <div class="item-category">Grains</div>
+                                    </div>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="quantity">x3</span>
+                                    <button class="btn-icon" onclick="removeFromPantry('pasta')">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="item-info">
+                                    <span class="icon">📦</span>
+                                    <div>
+                                        <div class="item-name">Tomato Sauce</div>
+                                        <div class="item-category">Canned Goods</div>
+                                    </div>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="quantity">x1</span>
+                                    <button class="btn-icon" onclick="removeFromPantry('tomato-sauce')">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-container" id="pantry-form" style="display: none;">
+                            <div class="form-group">
+                                <label for="pantry-item-name">Item Name</label>
+                                <input type="text" id="pantry-item-name" placeholder="Enter item name">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="pantry-item-quantity">Quantity</label>
+                                    <input type="number" id="pantry-item-quantity" value="1" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="pantry-item-category">Category</label>
+                                    <select id="pantry-item-category">
+                                        <option value="">Select category</option>
+                                        <option value="Grains">Grains</option>
+                                        <option value="Canned Goods">Canned Goods</option>
+                                        <option value="Dairy">Dairy</option>
+                                        <option value="Produce">Produce</option>
+                                        <option value="Meat">Meat</option>
+                                        <option value="Snacks">Snacks</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pantry-item-expiry">Expiry Date (Optional)</label>
+                                <input type="date" id="pantry-item-expiry">
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-primary" onclick="addToPantry()">Add Item</button>
+                                <button class="btn btn-secondary" onclick="togglePantryForm()">Cancel</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-full" id="pantry-add-btn" onclick="togglePantryForm()">
+                            <span class="icon">+</span> ADD FORM
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-    <section class="column">
-      <h2>Pantry</h2>
-      <div class="add-form">ADD FORM</div>
-    </section>
-  </main>
-
-  <footer>
-    <p>LOGO | REVIEWS / CONTACT | SOCIAL_TAGS</p>
-  </footer>
-
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#" class="footer-link">LOGO</a>
+                    <a href="#" class="footer-link">REVIEWS/CONTACT</a>
+                </div>
+                <div class="social-tags">SOCIAL_TAGS</div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
