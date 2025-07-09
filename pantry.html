@@ -22,12 +22,16 @@
   <main>
     <section class="column detailed">
       <h2>Detailed pantry list</h2>
-      <!-- Detailed list content goes here -->
+      <ul id="pantry-list"></ul>
     </section>
 
     <section class="column quick-add">
       <h2>Quick add list</h2>
-      <!-- Quick add form or list goes here -->
+      <form id="add-item-form">
+        <input type="text" id="item-name" placeholder="Item name" required>
+        <input type="number" id="item-quantity" value="1" min="1" required>
+        <button type="submit">Add Item</button>
+      </form>
     </section>
   </main>
 
