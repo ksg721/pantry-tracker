@@ -10,15 +10,19 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="container">
-            <h1 class="logo">Pantry Shark</h1>
-            <nav class="nav">
-                <a href="#" class="nav-link"><img src="" alt=""></a>
-                <a href="index.html" class="nav-link">HOME</a>
-                <a href="pantry.html" class="nav-link">PANTRY</a>
-            </nav>
-        </div>
-    </header>
+  <div class="container">
+    <div class="header-content">
+      <a href="index.html" class="logo-link">
+        <img src="imgs/logo.png" alt="Pantry Shark Logo" class="logo-img" />
+      </a>
+      <h1 class="logo">Pantry Shark</h1>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">HOME</a>
+        <a href="pantry.html" class="nav-link">PANTRY</a>
+      </nav>
+    </div>
+  </div>
+</header>
 
     <!-- Main Content -->
     <main class="main">
@@ -27,11 +31,11 @@
                 <!-- Cart Section -->
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">Cart</h2>
+                        <h2 class="card-title">List</h2>
                     </div>
                     <div class="card-content">
                         <div class="items-list" id="cart-items">
-                            <div class="empty-message">Your cart is empty</div>
+                            <div class="empty-message">Your list is empty</div>
                         </div>
                         <div class="form-container" id="cart-form" style="display: none;">
                             <div class="form-group">
@@ -73,6 +77,7 @@
                     </div>
                     <div class="card-content">
                         <div class="items-list" id="pantry-items">
+                            <div class="empty-message" id="pantry-empty-message">Your pantry is empty</div>
                         </div>
                         <div class="form-container" id="pantry-form" style="display: none;">
                             <div class="form-group">
@@ -121,10 +126,9 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-links">
-                    <a href="#" class="footer-link">LOGO</a>
                     <a href="#" class="footer-link">REVIEWS/CONTACT</a>
                 </div>
-                <div class="social-tags">SOCIAL_TAGS</div>
+                <div class="social-tags">Instagram</div>
             </div>
         </div>
     </footer>
