@@ -1,3 +1,5 @@
+let loadingPantry = false; // prevent double-saving during load
+
 function toggleCartForm() {
   const form = document.getElementById("cart-form");
   form.style.display = form.style.display === "none" ? "block" : "none";
@@ -72,7 +74,7 @@ function addToPantry(name = null, quantity = 1, category = "Uncategorized") {
     </div>
     <div class="item-actions">
       <span class="quantity">x${quantity}</span>
-      <button class="btn-icon" onclick="this.closest('.item').remove(); updatePantryEmptyMessage()">🗑️</button>
+      <button class="btn-icon" onclick="this.closest('.item').remove(); updatePantryEmptyMessage(); savePantry()">🗑️</button>
     </div>
   `;
   pantryList.appendChild(item);
@@ -86,6 +88,7 @@ function addToPantry(name = null, quantity = 1, category = "Uncategorized") {
   }
 
   updatePantryEmptyMessage();
+  if (!loadingPantry) savePantry(); // only save if not loading
 }
 
 function quickAdd() {
@@ -112,6 +115,7 @@ function removeFromPantry(name) {
     }
   });
   updatePantryEmptyMessage();
+  savePantry();
 }
 
 function populateQuickAdd() {
@@ -149,7 +153,28 @@ function populateQuickAdd() {
   container.appendChild(list);
 }
 
+function savePantry() {
+  const pantryItems = [];
+  document.querySelectorAll("#pantry-items .item").forEach(item => {
+    const name = item.querySelector(".item-name")?.textContent;
+    const category = item.querySelector(".item-category")?.textContent || "Uncategorized";
+    const quantity = item.querySelector(".quantity")?.textContent.replace("x", "") || "1";
+    pantryItems.push({ name, category, quantity });
+  });
+  localStorage.setItem("pantry", JSON.stringify(pantryItems));
+}
+
+function loadPantry() {
+  const pantryItems = JSON.parse(localStorage.getItem("pantry") || "[]");
+  loadingPantry = true;
+  pantryItems.forEach(item => {
+    addToPantry(item.name, item.quantity, item.category);
+  });
+  loadingPantry = false;
+}
+
 window.addEventListener("DOMContentLoaded", () => {
+  loadPantry(); // restore pantry from memory
   populateQuickAdd();
   updatePantryEmptyMessage();
 });

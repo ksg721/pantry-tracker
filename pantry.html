@@ -9,34 +9,64 @@
 </head>
 <body>
   <header class="header">
-        <div class="container">
-            <h1 class="logo">Pantry Shark</h1>
-            <nav class="nav">
-                <a href="index.html" class="nav-link"><img src="" alt=""></a>
-                <a href="index.html" class="nav-link">HOME</a>
-                <a href="pantry.html" class="nav-link">PANTRY</a>
-            </nav>
+  <div class="container">
+    <div class="header-content">
+      <a href="index.html" class="logo-link">
+        <img src="imgs/logo.png" alt="Pantry Shark Logo" class="logo-img" />
+      </a>
+      <h1 class="logo">Pantry Shark</h1>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">HOME</a>
+        <a href="pantry.html" class="nav-link">PANTRY</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+  <main class="main">
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Items in Your Pantry</h2>
         </div>
-    </header>
-
-  <main>
-    <section class="column detailed">
-      <h2>Detailed pantry list</h2>
-      <ul id="pantry-list"></ul>
-    </section>
-
-    <section class="column quick-add">
-      <h2>Quick add list</h2>
-      <form id="add-item-form">
-        <input type="text" id="item-name" placeholder="Item name" required>
-        <input type="number" id="item-quantity" value="1" min="1" required>
-        <button type="submit">Add Item</button>
-      </form>
-    </section>
+        <div class="card-content" id="pantry-details">
+          <div class="empty-message" id="details-empty">Your pantry is empty</div>
+        </div>
+      </div>
+    </div>
   </main>
 
-  <footer>
-    <p>LOGO | REVIEWS / CONTACT | SOCIAL_TAGS</p>
-  </footer>
+  <script>
+    function loadPantryDetails() {
+      const pantryDetails = document.getElementById("pantry-details");
+      const items = JSON.parse(localStorage.getItem("pantry") || "[]");
+
+      if (items.length === 0) {
+        document.getElementById("details-empty").style.display = "block";
+        return;
+      }
+
+      document.getElementById("details-empty").style.display = "none";
+
+      items.forEach(item => {
+        const entry = document.createElement("div");
+        entry.className = "item";
+        entry.innerHTML = `
+          <div class="item-info">
+            <span class="icon">📦</span>
+            <div>
+              <div class="item-name">${item.name}</div>
+              <div class="item-details">Category: ${item.category}</div>
+              <div class="item-details">Quantity: ${item.quantity}</div>
+              <div class="item-details">Notes: Pantry item details</div>
+            </div>
+          </div>
+        `;
+        pantryDetails.appendChild(entry);
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", loadPantryDetails);
+  </script>
 </body>
 </html>
