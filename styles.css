@@ -1,6 +1,6 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
+  background-color: #D3F7FF;
   color: #333;
   line-height: 1.6;
   padding-bottom: 2rem;
@@ -16,7 +16,7 @@ body {
 
 /* Header */
 .header {
-  background-color: #ffffff;
+  background-color: #57C1FB;
   border-bottom: 2px solid #e0e0e0;
   padding: 1rem 0;
 }
@@ -64,7 +64,7 @@ body {
 
 .nav-link {
   text-decoration: none;
-  color: #3498db;
+  color: #2f7139;
   font-weight: 500;
   transition: color 0.3s ease;
 }
@@ -173,6 +173,11 @@ select {
   color: #333;
 }
 
+.btn-secondary:hover {
+  background-color: #aaa9a9;
+  color: #333;
+}
+
 .btn-full {
   width: 100%;
   margin-top: 1rem;
@@ -258,7 +263,7 @@ select {
 
 .footer-link {
   text-decoration: none;
-  color: #3498db;
+  color: #2f7139;
 }
 
 .footer-link:hover {

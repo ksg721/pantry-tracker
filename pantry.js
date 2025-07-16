@@ -22,33 +22,51 @@ function addToCart(name = null, quantity = 1) {
 
   if (!name) {
     name = document.getElementById("cart-item-name").value.trim();
-    quantity = document.getElementById("cart-item-quantity").value;
+    quantity = parseInt(document.getElementById("cart-item-quantity").value, 10);
+  } else {
+    quantity = parseInt(quantity, 10); // Ensure it's numeric
   }
 
   if (!name) return alert("Please enter a valid item name.");
 
+  // Check if item already exists
+  const existingItem = Array.from(cartList.querySelectorAll(".item")).find(item => {
+    const itemName = item.querySelector(".item-name")?.textContent.toLowerCase();
+    return itemName === name.toLowerCase();
+  });
+
   const empty = cartList.querySelector(".empty-message");
   if (empty) empty.remove();
 
-  const item = document.createElement("div");
-  item.className = "item";
-  item.innerHTML = `
-    <div class="item-info">
-      <span class="icon">🛒</span>
-      <div><div class="item-name">${name}</div></div>
-    </div>
-    <div class="item-actions">
-      <span class="quantity">x${quantity}</span>
-      <button class="btn-icon" onclick="this.closest('.item').remove()">🗑️</button>
-    </div>
-  `;
-  cartList.appendChild(item);
+  if (existingItem) {
+    // Update existing quantity
+    const quantitySpan = existingItem.querySelector(".quantity");
+    const currentQty = parseInt(quantitySpan.textContent.replace("x", ""), 10) || 0;
+    quantitySpan.textContent = `x${currentQty + quantity}`;
+  } else {
+    // Create new item
+    const item = document.createElement("div");
+    item.className = "item";
+    item.innerHTML = `
+      <div class="item-info">
+        <span class="icon">🛒</span>
+        <div><div class="item-name">${name}</div></div>
+      </div>
+      <div class="item-actions">
+        <span class="quantity">x${quantity}</span>
+        <button class="btn-icon" onclick="this.closest('.item').remove(); saveCart()">🗑️</button>
+      </div>
+    `;
+    cartList.appendChild(item);
+  }
 
   if (!arguments.length) {
     document.getElementById("cart-item-name").value = "";
     document.getElementById("cart-item-quantity").value = 1;
     toggleCartForm();
   }
+
+  saveCart(); // Add this line to persist updates
 }
 
 function addToPantry(name = null, quantity = 1, category = "Uncategorized") {
@@ -56,28 +74,44 @@ function addToPantry(name = null, quantity = 1, category = "Uncategorized") {
 
   if (!name) {
     name = document.getElementById("pantry-item-name").value.trim();
-    quantity = document.getElementById("pantry-item-quantity").value;
+    quantity = parseInt(document.getElementById("pantry-item-quantity").value, 10);
     category = document.getElementById("pantry-item-category").value || "Uncategorized";
+  } else {
+    quantity = parseInt(quantity, 10); // ensure quantity is numeric if passed as string
   }
 
   if (!name) return alert("Please enter a valid item name.");
 
-  const item = document.createElement("div");
-  item.className = "item";
-  item.innerHTML = `
-    <div class="item-info">
-      <span class="icon">📦</span>
-      <div>
-        <div class="item-name">${name}</div>
-        <div class="item-category">${category}</div>
+  // Check if item already exists (case-insensitive)
+  const existingItem = Array.from(pantryList.querySelectorAll(".item")).find(item => {
+    const itemName = item.querySelector(".item-name")?.textContent.toLowerCase();
+    return itemName === name.toLowerCase();
+  });
+
+  if (existingItem) {
+    // Update quantity
+    const quantitySpan = existingItem.querySelector(".quantity");
+    const currentQty = parseInt(quantitySpan.textContent.replace("x", ""), 10) || 0;
+    quantitySpan.textContent = `x${currentQty + quantity}`;
+  } else {
+    // Create new item
+    const item = document.createElement("div");
+    item.className = "item";
+    item.innerHTML = `
+      <div class="item-info">
+        <span class="icon">📦</span>
+        <div>
+          <div class="item-name">${name}</div>
+          <div class="item-category">${category}</div>
+        </div>
       </div>
-    </div>
-    <div class="item-actions">
-      <span class="quantity">x${quantity}</span>
-      <button class="btn-icon" onclick="this.closest('.item').remove(); updatePantryEmptyMessage(); savePantry()">🗑️</button>
-    </div>
-  `;
-  pantryList.appendChild(item);
+      <div class="item-actions">
+        <span class="quantity">x${quantity}</span>
+        <button class="btn-icon" onclick="this.closest('.item').remove(); updatePantryEmptyMessage(); savePantry()">🗑️</button>
+      </div>
+    `;
+    pantryList.appendChild(item);
+  }
 
   if (!arguments.length) {
     document.getElementById("pantry-item-name").value = "";
@@ -88,7 +122,7 @@ function addToPantry(name = null, quantity = 1, category = "Uncategorized") {
   }
 
   updatePantryEmptyMessage();
-  if (!loadingPantry) savePantry(); // only save if not loading
+  if (!loadingPantry) savePantry();
 }
 
 function quickAdd() {
@@ -143,7 +177,7 @@ function populateQuickAdd() {
     entry.innerHTML = `
       <span>${item.name}</span>
       <div style="display: flex; gap: 0.5rem;">
-        <button class="btn btn-secondary" onclick="addToCart('${item.name}')">Cart</button>
+        <button class="btn btn-secondary" onclick="addToCart('${item.name}')">List</button>
         <button class="btn btn-primary" onclick="addToPantry('${item.name}', 1, '${item.category}')">Pantry</button>
       </div>
     `;
@@ -173,8 +207,27 @@ function loadPantry() {
   loadingPantry = false;
 }
 
+function saveCart() {
+  const cartItems = [];
+  document.querySelectorAll("#cart-items .item").forEach(item => {
+    const name = item.querySelector(".item-name")?.textContent;
+    const quantity = item.querySelector(".quantity")?.textContent.replace("x", "") || "1";
+    cartItems.push({ name, quantity });
+  });
+  localStorage.setItem("cart", JSON.stringify(cartItems));
+}
+
+function loadCart() {
+  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+  cartItems.forEach(item => {
+    addToCart(item.name, item.quantity);
+  });
+}
+
+
 window.addEventListener("DOMContentLoaded", () => {
   loadPantry(); // restore pantry from memory
+  loadCart();   // restore cart from memory
   populateQuickAdd();
   updatePantryEmptyMessage();
 });
